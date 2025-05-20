@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weapon Cost & Build Time Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .calculator {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            background-color: #e9f7ef;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border-radius: 4px 4px 0 0;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            color: black;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #ccc;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+        .visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weapon Cost & Build Time Calculator</h1>
+    <p>Calculate the cost and build time for guns, artillery, and ships based on your population and education statistics.</p>
+    
+    <div class="calculator">
+        <div class="tab">
+            <button class="tablink active" onclick="openTab(event, 'nation')">Nation Stats</button>
+            <button class="tablink" onclick="openTab(event, 'gun')">Guns</button>
+            <button class="tablink" onclick="openTab(event, 'artillery')">Artillery</button>
+            <button class="tablink" onclick="openTab(event, 'ship')">Ships</button>
+        </div>
+        
+        <!-- Nation Stats Tab -->
+        <div id="nation" class="tabcontent visible">
+            <h2>Nation Statistics</h2>
+            <div class="form-group">
+                <label for="population">Population:</label>
+                <input type="number" id="population" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="maxStudents">Maximum Students:</label>
+                <input type="number" id="maxStudents" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="currentStudents">Current Number of Students:</label>
+                <input type="number" id="currentStudents" min="0" required>
+            </div>
+            <button onclick="saveNationStats()">Save Nation Stats</button>
+        </div>
+        
+        <!-- Gun Tab -->
+        <div id="gun" class="tabcontent">
+            <h2>Gun Calculator</h2>
+            <div class="form-group">
+                <label for="gunCaliberSq">Caliber (squared mm²):</label>
+                <input type="number" id="gunCaliberSq" min="1" step="1" required>
+                <small>The caliber of the gun, squared (in mm²)</small>
+            </div>
+            <div class="form-group">
+                <label for="gunRate">Rate of Fire (shots per minute):</label>
+                <input type="number" id="gunRate" min="1" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="gunVelocity">Muzzle Velocity (m/s):</label>
+                <input type="number" id="gunVelocity" min="1" step="1" required>
+            </div>
+            <button onclick="calculateGun()">Calculate Gun Cost & Time</button>
+        </div>
+        
+        <!-- Artillery Tab -->
+        <div id="artillery" class="tabcontent">
+            <h2>Artillery Calculator</h2>
+            <div class="form-group">
+                <label for="artCaliberSq">Caliber (squared mm²):</label>
+                <input type="number" id="artCaliberSq" min="1" step="1" required>
+                <small>The caliber of the artillery, squared (in mm²)</small>
+            </div>
+            <div class="form-group">
+                <label for="artRate">Rate of Fire (shots per minute):</label>
+                <input type="number" id="artRate" min="0.1" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="artVelocity">Muzzle Velocity (m/s):</label>
+                <input type="number" id="artVelocity" min="1" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="artRange">Range (km):</label>
+                <input type="number" id="artRange" min="0.1" step="0.1" required>
+            </div>
+            <button onclick="calculateArtillery()">Calculate Artillery Cost & Time</button>
+        </div>
+        
+        <!-- Ship Tab -->
+        <div id="ship" class="tabcontent">
+            <h2>Ship Calculator</h2>
+            <div class="form-group">
+                <label for="shipDisplacement">Displacement (tons):</label>
+                <input type="number" id="shipDisplacement" min="1" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="shipSpeed">Speed (knots):</label>
+                <input type="number" id="shipSpeed" min="1" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="shipArmor">Armor Thickness (mm):</label>
+                <input type="number" id="shipArmor" min="0" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="shipGuns">Number of Guns:</label>
+                <input type="number" id="shipGuns" min="0" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="shipGunSize">Gun Size (mm):</label>
+                <input type="number" id="shipGunSize" min="0" step="1" required>
+            </div>
+            <button onclick="calculateShip()">Calculate Ship Cost & Time</button>
+        </div>
+    </div>
+    
+    <div id="results" class="results">
+        <h2>Results</h2>
+        <div id="resultContent"></div>
+    </div>
+    
+    <script>
+        let nationData = {
+            population: 0,
+            maxStudents: 0,
+            currentStudents: 0
+        };
+        
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            const tabcontent = document.getElementsByClassName("tabcontent");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("visible");
+            }
+            
+            // Remove active class from all tab buttons
+            const tablinks = document.getElementsByClassName("tablink");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            
+            // Show the current tab and add active class to the button
+            document.getElementById(tabName).classList.add("visible");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        function saveNationStats() {
+            const population = parseInt(document.getElementById("population").value);
+            const maxStudents = parseInt(document.getElementById("maxStudents").value);
+            const currentStudents = parseInt(document.getElementById("currentStudents").value);
+            
+            if (!population || !maxStudents || (currentStudents === undefined)) {
+                alert("Please fill in all nation stats fields");
+                return;
+            }
+            
+            if (currentStudents > maxStudents) {
+                alert("Current students cannot exceed maximum students");
+                return;
+            }
+            
+            nationData = {
+                population,
+                maxStudents,
+                currentStudents
+            };
+            
+            alert("Nation stats saved successfully!");
+        }
+        
+        // Calculate the base construction time in days
+        function calculateConstructionTime(techPoints) {
+            // From the document: Base Construction Time = Tech Points ÷ [(Current Students × 0.01) + 0.1]
+            const studentFactor = (nationData.currentStudents * 0.01) + 0.1;
+            const daysRequired = techPoints / studentFactor;
+            return daysRequired;
+        }
+        
+        // Format the time into days, months, years
+        function formatTime(days) {
+            if (days < 1) {
+                return "Less than a day";
+            }
+            
+            const years = Math.floor(days / 365);
+            const months = Math.floor((days % 365) / 30);
+            const remainingDays = Math.floor(days % 30);
+            
+            let timeString = "";
+            if (years > 0) {
+                timeString += `${years} year${years > 1 ? 's' : ''} `;
+            }
+            if (months > 0) {
+                timeString += `${months} month${months > 1 ? 's' : ''} `;
+            }
+            if (remainingDays > 0 || (years === 0 && months === 0)) {
+                timeString += `${remainingDays} day${remainingDays !== 1 ? 's' : ''}`;
+            }
+            
+            return timeString.trim();
+        }
+        
+        // Format large numbers with commas
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        function calculateGun() {
+            if (nationData.population === 0) {
+                alert("Please fill in and save nation stats first!");
+                openTab(event, 'nation');
+                return;
+            }
+            
+            const caliber = parseFloat(document.getElementById("gunCaliberSq").value);
+            const rateOfFire = parseFloat(document.getElementById("gunRate").value);
+            const velocity = parseFloat(document.getElementById("gunVelocity").value);
+            
+            if (!caliber || !rateOfFire || !velocity) {
+                alert("Please fill in all gun stats fields");
+                return;
+            }
+            
+            // Gun formula from the document
+            // Cost = Caliber² × Rate of Fire × Muzzle Velocity × 0.025
+            const cost = caliber * rateOfFire * velocity * 0.025;
+            
+            // Tech points formula from the document
+            // Tech Points = Caliber² × (Rate of Fire ÷ 10) × (Muzzle Velocity ÷ 100)
+            const techPoints = caliber * (rateOfFire / 10) * (velocity / 100);
+            
+            // Calculate construction time
+            const constructionTime = calculateConstructionTime(techPoints);
+            
+            // Display results
+            displayResults("Gun", cost, techPoints, constructionTime);
+        }
+        
+        function calculateArtillery() {
+            if (nationData.population === 0) {
+                alert("Please fill in and save nation stats first!");
+                openTab(event, 'nation');
+                return;
+            }
+            
+            const caliber = parseFloat(document.getElementById("artCaliberSq").value);
+            const rateOfFire = parseFloat(document.getElementById("artRate").value);
+            const velocity = parseFloat(document.getElementById("artVelocity").value);
+            const range = parseFloat(document.getElementById("artRange").value);
+            
+            if (!caliber || !rateOfFire || !velocity || !range) {
+                alert("Please fill in all artillery stats fields");
+                return;
+            }
+            
+            // Artillery formula from the document
+            // Cost = Caliber² × Muzzle Velocity × Range × 0.05
+            const cost = caliber * velocity * range * 0.05;
+            
+            // Tech Points = Caliber² × (Muzzle Velocity ÷ 100) × Range
+            const techPoints = caliber * (velocity / 100) * range;
+            
+            // Calculate construction time
+            const constructionTime = calculateConstructionTime(techPoints);
+            
+            // Display results
+            displayResults("Artillery", cost, techPoints, constructionTime);
+        }
+        
+        function calculateShip() {
+            if (nationData.population === 0) {
+                alert("Please fill in and save nation stats first!");
+                openTab(event, 'nation');
+                return;
+            }
+            
+            const displacement = parseFloat(document.getElementById("shipDisplacement").value);
+            const speed = parseFloat(document.getElementById("shipSpeed").value);
+            const armor = parseFloat(document.getElementById("shipArmor").value);
+            const numGuns = parseFloat(document.getElementById("shipGuns").value);
+            const gunSize = parseFloat(document.getElementById("shipGunSize").value);
+            
+            if (!displacement || !speed || armor === undefined || numGuns === undefined || gunSize === undefined) {
+                alert("Please fill in all ship stats fields");
+                return;
+            }
+            
+            // Ship formula from the document
+            // Cost = Displacement × Speed × (1 + Armor ÷ 100) × (1 + Number of Guns × Gun Size² ÷ 10000) × 1.5
+            const gunFactor = 1 + ((numGuns * Math.pow(gunSize, 2)) / 10000);
+            const armorFactor = 1 + (armor / 100);
+            const cost = displacement * speed * armorFactor * gunFactor * 1.5;
+            
+            // Tech Points = Displacement × (Speed ÷ 10) × (1 + Armor ÷ 200) × (1 + Number of Guns × Gun Size² ÷ 20000)
+            const techGunFactor = 1 + ((numGuns * Math.pow(gunSize, 2)) / 20000);
+            const techArmorFactor = 1 + (armor / 200);
+            const techPoints = displacement * (speed / 10) * techArmorFactor * techGunFactor;
+            
+            // Calculate construction time
+            const constructionTime = calculateConstructionTime(techPoints);
+            
+            // Display results
+            displayResults("Ship", cost, techPoints, constructionTime);
+        }
+        
+        function displayResults(weaponType, cost, techPoints, constructionTime) {
+            const results = document.getElementById("results");
+            const resultContent = document.getElementById("resultContent");
+            
+            // Calculate affordability
+            const affordability = nationData.population * 0.5;
+            const isAffordable = cost <= affordability;
+            
+            // Format the results
+            let html = `
+                <h3>${weaponType} Results</h3>
+                <p><strong>Cost:</strong> ${formatNumber(Math.round(cost))} Gold</p>
+                <p><strong>Tech Points Required:</strong> ${formatNumber(Math.round(techPoints))}</p>
+                <p><strong>Construction Time:</strong> ${formatTime(constructionTime)}</p>
+                <p><strong>Nation Wealth:</strong> ${formatNumber(Math.round(affordability))} Gold (based on population × 0.5)</p>
+                <p><strong>Affordability:</strong> ${isAffordable ? 
+                    '<span style="color: green;">You can afford this!</span>' : 
+                    '<span style="color: red;">You cannot afford this.</span>'}</p>
+            `;
+            
+            resultContent.innerHTML = html;
+            results.style.display = "block";
+        }
+    </script>
+</body>
+</html>
