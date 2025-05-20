@@ -14,6 +14,22 @@
 <body>
     <div class="calculator">
         <h2>Firearm RP Calculator</h2>
+        
+        <div class="input-group">
+            <label>population: </label>
+            <input type="number" id="population" required>
+        </div>
+        
+        <div class="input-group">
+            <label>students: </label>
+            <input type="number" id="student" required>
+        </div>
+        
+        <div class="input-group">
+            <label>max student: </label>
+            <input type="number" id="max-student" required>
+        </div>
+        
         <div class="input-group">
             <label>Caliber (inches):</label>
             <input type="number" step="0.01" id="caliber" required>
@@ -61,7 +77,9 @@
         </div>
 
         <button onclick="calculateRP()">Calculate RP</button>
-        <div id="result"></div>
+        <div id="result-rp"></div>
+        <div id="result-time"></div>
+        <div id="result-cost"></div>
     </div>
 
     <script>
@@ -75,8 +93,29 @@
             const durability = parseFloat(document.getElementById('durability').value);
             const accuracy = parseFloat(document.getElementById('accuracy').value);
             const ease = parseFloat(document.getElementById('ease').value);
+            const students = parseFloat(document.getElementById("student").value)
+            const maxStudents = parseFloat(document.getElementById("student").value)
+            const population = parseFloat(document.getElementById("student").value)
+            const studentRatio = students / maxStudents
+            const populationFactor = ( () => {
 
-            // Calculate individual components
+                if(population < 50000000) {
+                    return 0.85
+                }
+                
+                else if(population < 100000000){
+                    return 0.75
+                }
+                else if(population < 300,000,000){
+                   return 0.25
+                }
+                
+                else {
+                    return 0.15
+                }
+            })()
+            
+            // If you get Nan you Inputed invalid values to lazy to make a checker
             const caliberRP = Math.round(caliber * 10) * 2;
             const rangeRP = (range / 10) * 2;
             const rofRP = rof * 3;
@@ -88,9 +127,12 @@
 
             // Calculate total RP
             const totalRP = caliberRP + rangeRP + rofRP + reloadRP + weightRP + durabilityRP + accuracyRP + easeRP;
-
+            const totalTimeCost = totalRP / ( ( students * 0.01 ) * (populationFactor + studentRatio) )
+            const totalCost = ( ( totalRP / 2 ) + (totalTimeCost * 2) )
             // Display result
-            document.getElementById('result').innerHTML = `Total RP Cost: ${totalRP.toFixed(1)}`;
+            document.getElementById('result-rp').innerHTML = `Total RP Cost: ${totalRP.toFixed(1)}`
+            document.getElementById('result-time').innerHTML = `TotalTime: ${totalTimeCost.toFixed(2)}`
+            document.getElementById('result-cost').innerHTML = `TotalCost: ${totalCost.toFixed(3)}m`
         }
     </script>
 </body>
