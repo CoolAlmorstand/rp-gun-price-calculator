@@ -7,6 +7,7 @@ template.innerHTML = `
             font-size: 16px;
             margin-top: 20px;
             width: 100%;
+            flex-shrink: 0;
             max-width: 450px;
             height: auto;
             margin-bottom: 30px;
@@ -19,25 +20,41 @@ template.innerHTML = `
             width: 100%;
             height: 100%;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: flex-start;
             box-sizing: border-box;
             border-radius: 15px;
+            gap: 30px;
             /*border: 1px solid #3498db;*/
             background-color: white;
         }
         
-        .input-group {
-            margin-left: 5px;
-            width: 100%;
-            max-width: 300px;
-            height: 30px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            gap: 15px;
+        .labels-container {
+            overflow-x: auto;
+            overflow-y; hidden;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+            width: 40%;
+            row-gap: 10px;
             background-color: transparent;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between
+        }
+        
+        .input-container {
+            overflow-x: auto;
+            overflow-y; hidden;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+            width: 40%;
+            row-gap: 10px;
+            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between
         }
         
         .input-group span {
@@ -53,6 +70,14 @@ template.innerHTML = `
             width: 108px;
         }
         
+        .bottom-bar {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
         .calculate-button {
             margin-top: 10px;
             width: 80px;
@@ -64,65 +89,53 @@ template.innerHTML = `
     </style>
     
     <div class="main-container">
-        <div class="input-group">
+    
+        <div class="labels-container">
             <span> caliber (inch): </span>
-            <input id="caliber-input">
-        </div>
-        
-        <div class="input-group">
             <span> effective range (yards): </span>
-            <input id="effective-range-input">
+            <span> fire rate (RPM): </span>
+            <span> reload speed (seconds): </span>
+            <span> weight (lbs): </span>
+            <span> ease of use: </span>
+            <span> durability: </span>
+            <span> accuracy: </span>
         </div>
         
-        <div class="input-group">
-            <span> fire rate (RPM): </span>
+        <div class="input-container">
+            <input id="caliber-input">
+            <input id="effective-range-input">
             <input id="fire-rate-input">
-        </div>  
-        
-        <div class="input-group">
-            <span> reload speed (seconds): </span>
             <input id="reload-speed-input">
-        </div>  
-        
-        <div class="input-group">
-            <span> weight (lbs): </span>
             <input id="weight-input">
-        </div>  
-        
-        <div class="input-group">
-            <span> ease of use: </span>
+            
             <select id="ease-of-use-input">
                 <option value="1">Complex</option>
                 <option value="2">Medium</option>
                 <option value="3">Simple</option>
             </select>
-        </div>  
-        
-        <div class="input-group">
-            <span> durability: </span>
+            
             <select id="durability-input">
                 <option value="1">Low</option>
                 <option value="2">Medium</option>
                 <option value="3">High</option>
             </select>
-        </div>  
-        
-        <div class="input-group">
-            <span> accuracy: </span>
+            
             <select id="accuracy-input">
-                <option value="1">Low</option>
-                <option value="2">Moderate</option>
-                <option value="2.5">Moderate-High</option>
-                <option value="3">High</option>
+                <option value="1">low</option>
+                <option value="2">moderate</option>
+                <option value="2.5">moderate-high</option>
+                <option value="3">high</option>
             </select>
-        </div>  
-        
+        </div>
+    </div>
+    
+    <div class="bottom-bar">
         <button class="calculate-button" id="calculate-button"> Calculate </button>
-        
         <div id="result-rp"></div>
         <div id="result-time"></div>
         <div id="result-cost"></div>
     </div>
+
 `
 
 export class GunCalculatorTab extends HTMLElement {

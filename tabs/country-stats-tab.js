@@ -19,30 +19,39 @@ template.innerHTML = `
             width: 100%;
             height: 100%;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: flex-start;
+            gap: 10px;
             box-sizing: border-box;
             border-radius: 15px;
             /*border: 1px solid #3498db;*/
             background-color: white;
         }
         
-        .input-group {
-            margin-left: 5px;
-            width: 80%;
-            max-width: 250px;
-            height: 30px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            gap: 15px;
+        
+        .labels-container {
+            row-gap: 10px;
+            width: 40%;
             background-color: transparent;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between
         }
         
-        .input-group span {
+        .labels-container span {
             font-size: 14px;
             white-space: nowrap;
+        }
+        
+        .input-container {
+            row-gap: 10px;
+            max-width: 49%;
+            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between
         }
         
         input {
@@ -51,18 +60,15 @@ template.innerHTML = `
     </style>
     
     <div class="main-container">
-        <div class="input-group">
+        <div class="labels-container">
             <span> population: </span>
-            <input id="population-input" data-value="population" >
-        </div>
-        
-        <div class="input-group">
             <span> students: </span>
-            <input id="students-input" data-value="students" >
-        </div>
-        
-        <div class="input-group">
             <span> max-students: </span>
+        </div>
+        <div class="input-container">
+            
+            <input id="population-input" data-value="population" >
+            <input id="students-input" data-value="students" >
             <input id="max-students-input" data-value="max-students">
         </div>  
     </div>

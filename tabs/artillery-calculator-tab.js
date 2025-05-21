@@ -19,25 +19,46 @@ template.innerHTML = `
             width: 100%;
             height: 100%;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: flex-start;
             box-sizing: border-box;
             border-radius: 15px;
+            gap: 30px;
             /*border: 1px solid #3498db;*/
             background-color: white;
         }
         
-        .input-group {
-            margin-left: 5px;
-            width: 100%;
-            max-width: 300px;
-            height: 30px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            gap: 15px;
+        .labels-container {
+            overflow-x: auto;
+            overflow-y; hidden;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+            width: 49%;
+            row-gap: 10px;
             background-color: transparent;
-            align-items: center;
+            display: flex;
+            white-space: no-wrap;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between
+        }
+        
+        .labels-container span {
+            white-space: nowrap;
+        }
+        
+        .input-container {
+            overflow-x: auto;
+            overflow-y; hidden;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+            width: 49%;
+            row-gap: 10px;
+            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between
         }
         
         .input-group span {
@@ -53,6 +74,14 @@ template.innerHTML = `
             width: 108px;
         }
         
+        .bottom-bar {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
         .calculate-button {
             margin-top: 10px;
             width: 80px;
@@ -64,14 +93,31 @@ template.innerHTML = `
         
         .projectile-type-container {
             width: 120px;
-            height: 35px;
+            height: 25px;
             background-color: transparent;
             display: flex;
+            box-sizing: border-box;
             flex-direction: row;
+            align-items: flex-end;
             justify-content: space-between;
         }
         
+        .double-input-container {
+            display: flex;
+            box-sizing: border-box;
+            flex-direction: row;
+            justify-content: space-between;
+            background-color: transparent;
+            overflow-x: auto;
+            width: 120px;
+        }
+        
+        .double-input-container input {
+            width: 49px;
+        }
+        
         label {
+            
             flex-direction: column;
             display: flex;
             justify-content: center;
@@ -81,95 +127,64 @@ template.innerHTML = `
         
         label input {
             margin: 0;
-            width: 20px;
+            width: 18px;
         }
     </style>
     
     <div class="main-container">
-        <div class="input-group">
-            <span> caliber (mm): </span>
-            <input id="caliber-input">
-        </div>
-        
-        <div class="input-group">
+    
+        <div class="labels-container">
+            <span> caliber (inch): </span>
             <span> barrel length (meters): </span>
-            <input id="barrel-length-input">
-        </div>
-        
-        <div class="input-group">
+            <span> total weight (lbs): </span>
             <span> crew size (humans): </span>
-            <input id="crew-size-input">
+            <span> transport type </span>
+            <span> projectile types </span>
+            <span> effective range (yards): </span>
+            <span> max range (yards): </span>
+            <span> cannister range (yards): </span>
+            <span> rate of fire (RPM): </span>
         </div>
         
-        <div class="input-group">
-            <span> transport type </span>
+        <div class="input-container">
+            <input id="caliber-input">
+            <input id="barrel-length-input">
+            <input id="total-weight-input">
+            <input id="crew-size-input">
+
             <select id="transport-type-input">
-                <option value="1">Ox</option>
+                <option value="1"> Ox </option>
                 <option value="2">Horse Drawn</option>
                 <option value="3">Wheeled</option>
             </select>
-        </div>
-        
-        <div class="input-group">
-            <span>Projectile Type</span>
+            
             <div class="projectile-type-container" id="projectile-type-input">
                 <label><input type="checkbox" value="shell"> Shell</label>
                 <label><input type="checkbox" value="shot"> Shot</label>
                 <label><input type="checkbox" value="cannister"> Cannister</label>
             </div>
+            
+            <div class="double-input-container">
+                <input id="effective-range-min-range-input">
+                <input id="effective-range-max-range-input">
+            </div>
+            
+            <div class="double-input-container">
+                <input id="top-range-min-range-input">
+                <input id="top-range-max-range-input">
+            </div>
+            
+            <div class="double-input-container">
+                <input id="cannister-range-min-range-input">
+                <input id="cannister-range-max-range-input">
+            </div>
+            
+            <input id="rare-of-firet-input">
         </div>
-        
-        <div class="input-group">
-            <span> effective range (yards): </span>
-            <input id="effective-range-min-input">
-            <input id="effective-range-max-input">
-        </div>
-        
-        <div class="input-group">
-            <span> fire rate (RPM): </span>
-            <input id="fire-rate-input">
-        </div>  
-        
-        <div class="input-group">
-            <span> reload speed (seconds): </span>
-            <input id="reload-speed-input">
-        </div>  
-        
-        <div class="input-group">
-            <span> weight (lbs): </span>
-            <input id="weight-input">
-        </div>  
-        
-        <div class="input-group">
-            <span> ease of use: </span>
-            <select id="ease-of-use-input">
-                <option value="1">Complex</option>
-                <option value="2">Medium</option>
-                <option value="3">Simple</option>
-            </select>
-        </div>  
-        
-        <div class="input-group">
-            <span> durability: </span>
-            <select id="durability-input">
-                <option value="1">Low</option>
-                <option value="2">Medium</option>
-                <option value="3">High</option>
-            </select>
-        </div>  
-        
-        <div class="input-group">
-            <span> accuracy: </span>
-            <select id="accuracy-input">
-                <option value="1">Low</option>
-                <option value="2">Moderate</option>
-                <option value="2.5">Moderate-High</option>
-                <option value="3">High</option>
-            </select>
-        </div>  
-        
+    </div>
+    
+    <div class="bottom-bar">
         <button class="calculate-button" id="calculate-button"> Calculate </button>
-        
         <div id="result-rp"></div>
         <div id="result-time"></div>
         <div id="result-cost"></div>
@@ -184,19 +199,31 @@ export class ArtilleryCalculatorTab extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     
-        this.caliberInput = this.shadowRoot.getElementById("caliber-input");
-        this.effectiveRangeInput = this.shadowRoot.getElementById("effective-range-input");
-        this.fireRateInput = this.shadowRoot.getElementById("fire-rate-input");
-        this.reloadSpeedInput = this.shadowRoot.getElementById("reload-speed-input");
-        this.weightInput = this.shadowRoot.getElementById("weight-input");
-        this.easeOfUseInput = this.shadowRoot.getElementById("ease-of-use-input");
-        this.durabilityInput = this.shadowRoot.getElementById("durability-input");
-        this.accuracyInput = this.shadowRoot.getElementById("accuracy-input");
+        // Button and result elements
         this.calculateButton = this.shadowRoot.getElementById("calculate-button");
-        
-        this.resultRp = this.shadowRoot.getElementById("result-rp")
-        this.resultTime = this.shadowRoot.getElementById("result-time")
-        this.resultCost = this.shadowRoot.getElementById("result-cost")
+        this.resultRp = this.shadowRoot.getElementById("result-rp");
+        this.resultTime = this.shadowRoot.getElementById("result-time");
+        this.resultCost = this.shadowRoot.getElementById("result-cost");
+    
+        // Input field references
+        this.caliberInput = this.shadowRoot.getElementById("caliber-input");
+        this.barrelLengthInput = this.shadowRoot.getElementById("barrel-length-input");
+        this.totalWeightInput = this.shadowRoot.getElementById("total-weight-input");
+        this.crewSizeInput = this.shadowRoot.getElementById("crew-size-input")
+        this.transportTypeInput = this.shadowRoot.getElementById("transport-type-input");
+    
+        // Save parent of checkbox group
+        this.projectileTypeContainer = this.shadowRoot.getElementById("projectile-type-input");
+    
+        // Range inputs
+        this.effectiveRangeMinInput = this.shadowRoot.getElementById("effective-range-min-range-input");
+        this.effectiveRangeMaxInput = this.shadowRoot.getElementById("effective-range-max-range-input");
+        this.topRangeMinInput = this.shadowRoot.getElementById("top-range-min-range-input");
+        this.topRangeMaxInput = this.shadowRoot.getElementById("top-range-max-range-input");
+        this.cannisterRangeMinInput = this.shadowRoot.getElementById("cannister-range-min-range-input");
+        this.cannisterRangeMaxInput = this.shadowRoot.getElementById("cannister-range-max-range-input");
+
+        this.fireRateInput = this.shadowRoot.getElementById("rare-of-firet-input");
 }
     
     connectedCallback() {
@@ -221,9 +248,19 @@ export class ArtilleryCalculatorTab extends HTMLElement {
         }
     }
     
+    getProjectileTypeValue() {
+        
+        const checkboxes = this.shadowRoot.querySelectorAll('#projectile-type-input input[type="checkbox"]');
+        let count = 0;
+        checkboxes.forEach(box => {
+            if (box.checked) count++;
+        });
+        return count;
+    }
+    
     calculateReasearch() {
         
-        window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=QmXP4sKNg3uzEkxt"
+        //window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=QmXP4sKNg3uzEkxt"
         
         const population = parseInt( localStorage.getItem("RP:calculator:population") )
         const students = parseInt( localStorage.getItem("RP:calculator:students") )
@@ -233,22 +270,39 @@ export class ArtilleryCalculatorTab extends HTMLElement {
         const studentRatio = students / maxStudents
         
         const caliberRp = ( ( parseFloat(this.caliberInput.value) ) / 10 ) * 2
-        const rangeRp = ( parseFloat( this.effectiveRangeInput.value ) / 10 ) * 2
-        const rofRP = parseFloat( this.fireRateInput.value ) * 3
-        const weightRP = ( 20 - parseFloat(this.weightInput.value) ) * 1.5
-        const easeRP = parseFloat(this.easeOfUseInput.value) * 2
-        const reloadRP = ( 30 / parseFloat( this.reloadSpeedInput.value) ) * 2
-        const durabilityRP = parseFloat(this.durabilityInput.value) * 2
-        const accuracyRP = parseFloat(this.accuracyInput.value) * 2
+        const barrelLengthRp = parseFloat(this.barrelLengthInput.value)
+        const totalWeightRp = ( parseFloat(this.totalWeightInput.value) / 100 ) * 1.5
+        const crewSizeRp = parseFloat( this.crewSizeInput.value )
+        const transportTypeRp = parseFloat( this.transportTypeInput.value)
+        const projectileTypeRp = this.getProjectileTypeValue() * 2
+        const rateOfFireRp = parseFloat(this.fireRateInput.value) * 3
+        
+        const effectiveRangeRp = (
+            (
+                 ( ( parseFloat(this.topRangeMinInput.value) + parseFloat(this.effectiveRangeMaxInput.value) ) / 2 )
+            / 100 ) * 2
+        )
+        
+        const maxRangeRp = (
+           ( ( parseFloat(this.effectiveRangeMinInput.value) + parseFloat(this.topRangeMaxInput.value) ) / 2 ) 
+           / 100
+        )
+        
+        const cannisterRangeRp = (
+            (
+                 ( ( parseFloat(this.cannisterRangeMinInput.value) + parseFloat(this.cannisterRangeMaxInput.value) ) / 2 )
+            / 100 ) * 0.5
+        )
         
         const totalRP = (
-            caliberRp + rangeRp + rofRP + weightRP +
-            easeRP + reloadRP + durabilityRP + accuracyRP
+            caliberRp + barrelLengthRp + totalWeightRp + crewSizeRp + transportTypeRp + 
+            projectileTypeRp + rateOfFireRp + effectiveRangeRp + maxRangeRp + cannisterRangeRp
         )
         
         const totalTimeCost = totalRP / ( ( students * 0.01 ) * (populationFactor + studentRatio) )
         const totalCost = ( ( totalRP / 2 ) + (totalTimeCost * 2) ) / 20
         
+        debugger 
         this.resultRp.innerHTML = `Total Rp: ${totalRP}`
         this.resultTime.innerHTML = `Research Time: ${totalTimeCost.toFixed(2)} years`
         this.resultCost.innerHTML = `Research Cost: ${totalCost.toFixed(3)}m`
