@@ -327,9 +327,7 @@ export class NavyCalculatorTab extends HTMLElement {
     }
     
     calculateReasearch() {
-        
-        window.location.href = "https://youtu.be/OyDyOweu-PA?si=P0SFWTX-UBApI0WV"
-        
+                
         const population = parseInt( localStorage.getItem("RP:calculator:population") )
         const students = parseInt( localStorage.getItem("RP:calculator:students") )
         const maxStudents = parseInt( localStorage.getItem("RP:calculator:max-students") )

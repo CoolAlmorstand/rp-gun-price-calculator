@@ -133,7 +133,8 @@ template.innerHTML = `
         <button class="calculate-button" id="calculate-button"> Calculate </button>
         <div id="result-rp"></div>
         <div id="result-time"></div>
-        <div id="result-cost"></div>
+        <input id="weight-input">
+        <input id="crew-size-input">
     </div>
 
 `
@@ -157,8 +158,9 @@ export class GunCalculatorTab extends HTMLElement {
         this.calculateButton = this.shadowRoot.getElementById("calculate-button");
         
         this.resultRp = this.shadowRoot.getElementById("result-rp")
-        this.resultTime = this.shadowRoot.getElementById("result-time")
-        this.resultCost = this.shadowRoot.getElementById("result-cost")
+        this.resultTime = this.shadowRoot.getElementById("result-time");
+        this.resultTechCost = this.shadowRoot.getElementById("result-tech-cost");
+        this.resultProductionCost = this.shadowRoot.getElementById("result-production-cost")
 }
     
     connectedCallback() {
@@ -207,11 +209,13 @@ export class GunCalculatorTab extends HTMLElement {
         )
         
         const totalTimeCost = totalRP / ( ( students * 0.01 ) * (populationFactor + studentRatio) )
-        const totalCost = ( ( totalRP / 2 ) + (totalTimeCost * 2) ) / 20
+        const techCost = ( ( totalRP / 2 ) + (totalTimeCost * 2) ) / 20
+        const productionCost = ( totalRP * 0.12 ) + ( totalTimeCost * 0.5 )
         
         this.resultRp.innerHTML = `Total Rp: ${totalRP}`
         this.resultTime.innerHTML = `Research Time: ${totalTimeCost.toFixed(2)} years`
-        this.resultCost.innerHTML = `Research Cost: ${totalCost.toFixed(3)}m`
+        this.resultTechCost.innerHTML = `Research Cost: ${techCost.toFixed(3)}m`
+        this.resultProductionCost.innerHTML = `ProductionCost Cost: ${productionCost.toFixed(3)}`
     }
 }
 
