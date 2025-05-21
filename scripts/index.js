@@ -67,4 +67,4 @@ class TabButtons {
 }
 
 TabButtons.initialize()
-TabButtons.buttonClick(tabButtons.navy)
+TabButtons.buttonClick(tabButtons.countryStats)

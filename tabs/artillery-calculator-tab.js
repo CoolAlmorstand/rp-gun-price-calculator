@@ -187,8 +187,8 @@ template.innerHTML = `
         <button class="calculate-button" id="calculate-button"> Calculate </button>
         <div id="result-rp"></div>
         <div id="result-time"></div>
-        <input id="weight-input">
-        <input id="crew-size-input">
+        <div id="result-tech-cost"></div>
+        <div id="result-production-cost"></div>
     </div>
 `
 
@@ -307,7 +307,7 @@ export class ArtilleryCalculatorTab extends HTMLElement {
         this.resultRp.innerHTML = `Total Rp: ${totalRP}`
         this.resultTime.innerHTML = `Research Time: ${totalTimeCost.toFixed(2)} years`
         this.resultTechCost.innerHTML = `Research Cost: ${techCost.toFixed(3)}m`
-        this.resultProductionCost.innerHTML = `ProductionCost Cost: ${productionCost.toFixed(3)k}`
+        this.resultProductionCost.innerHTML = `ProductionCost Cost: ${productionCost.toFixed(3)}k`
     }
 }
 

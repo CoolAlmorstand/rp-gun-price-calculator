@@ -133,8 +133,8 @@ template.innerHTML = `
         <button class="calculate-button" id="calculate-button"> Calculate </button>
         <div id="result-rp"></div>
         <div id="result-time"></div>
-        <input id="weight-input">
-        <input id="crew-size-input">
+        <div id="result-tech-cost"></div>
+        <div id="result-production-cost"></div>
     </div>
 
 `
