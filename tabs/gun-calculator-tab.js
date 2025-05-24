@@ -34,7 +34,8 @@ template.innerHTML = `
             overflow-y; hidden;
             scrollbar-width: none; 
             -ms-overflow-style: none;
-            width: 40%;
+            white-space: nowrap;
+            width: 55%;
             row-gap: 10px;
             background-color: transparent;
             display: flex;

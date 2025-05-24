@@ -165,18 +165,18 @@ template.innerHTML = `
             </div>
             
             <div class="double-input-container">
-                <input id="effective-range-min-range-input">
-                <input id="effective-range-max-range-input">
+                <input id="effective-range-min-range-input" placeholder="min">
+                <input id="effective-range-max-range-input" placeholder="max">
             </div>
             
             <div class="double-input-container">
-                <input id="top-range-min-range-input">
-                <input id="top-range-max-range-input">
+                <input id="top-range-min-range-input" placeholder="min">
+                <input id="top-range-max-range-input" placeholder="max">
             </div>
             
             <div class="double-input-container">
-                <input id="cannister-range-min-range-input">
-                <input id="cannister-range-max-range-input">
+                <input id="cannister-range-min-range-input" placeholder="min">
+                <input id="cannister-range-max-range-input" placeholder="max">
             </div>
             
             <input id="rare-of-firet-input">
