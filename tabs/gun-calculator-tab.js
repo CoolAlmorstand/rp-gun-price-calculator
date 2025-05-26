@@ -195,7 +195,7 @@ export class GunCalculatorTab extends HTMLElement {
         const populationFactor = this.getPopulationFactor(population)
         const studentRatio = students / maxStudents
         
-        const caliberRp = ( ( parseFloat(this.caliberInput.value) ) / 10 ) * 2
+        const caliberRp = ( parseFloat(this.caliberInput.value) ) * 2
         const rangeRp = ( parseFloat( this.effectiveRangeInput.value ) / 10 ) * 2
         const rofRP = parseFloat( this.fireRateInput.value ) * 3
         const weightRP = ( 20 - parseFloat(this.weightInput.value) ) * 1.5
